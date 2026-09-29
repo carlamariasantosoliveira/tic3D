@@ -1,0 +1,6 @@
+{
+  "name": "TIC World — O Mundo Virtual das TIC (5.º Ano)",
+  "description": "Plataforma educativa 3D interativa para aprendizagem de Tecnologias da Informação e Comunicação (TIC) no 5.º ano de escolaridade, com exploração espacial, missões, simuladores curriculares, programação por blocos e personalização de avatar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
