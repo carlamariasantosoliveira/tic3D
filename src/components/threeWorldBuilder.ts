@@ -183,6 +183,42 @@ export function buildAvatarMesh(config: AvatarConfig): AvatarMeshParts {
     root.add(pack, thruster);
   }
 
+  // Hoodie Collar & School Backpack with TIC MUNDO Globe Patch (Visible in 3rd-person view!)
+  const hoodCollar = new THREE.Mesh(
+    new THREE.BoxGeometry(0.66, 0.18, 0.44),
+    new THREE.MeshStandardMaterial({ color: '#e2e8f0', roughness: 0.6 })
+  );
+  hoodCollar.position.set(0, 1.68, -0.05);
+  root.add(hoodCollar);
+
+  if (config.accessory !== 'jetpack') {
+    const backpackGroup = new THREE.Group();
+    const packMat = new THREE.MeshStandardMaterial({ color: '#1e293b', roughness: 0.55 });
+    const pocketMat = new THREE.MeshStandardMaterial({ color: '#0f172a', roughness: 0.6 });
+
+    const mainBag = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.64, 0.26), packMat);
+    mainBag.position.set(0, 1.25, -0.32);
+    mainBag.castShadow = true;
+
+    const lowerPocket = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.28, 0.08), pocketMat);
+    lowerPocket.position.set(0, 1.1, -0.46);
+
+    // Circular Earth / TIC MUNDO Emblem on Backpack
+    const globeBadge = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.11, 0.11, 0.03, 16),
+      new THREE.MeshStandardMaterial({
+        color: '#0ea5e9',
+        emissive: '#22c55e',
+        emissiveIntensity: 0.35,
+      })
+    );
+    globeBadge.rotation.x = Math.PI / 2;
+    globeBadge.position.set(0, 1.4, -0.46);
+
+    backpackGroup.add(mainBag, lowerPocket, globeBadge);
+    root.add(backpackGroup);
+  }
+
   root.add(leftLeg, rightLeg, bodyMesh, leftArm, rightArm, headGroup);
   return { root, leftArm, rightArm, leftLeg, rightLeg, headGroup, bodyMesh };
 }

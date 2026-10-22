@@ -28,38 +28,42 @@ import {
   AvatarAndShopPanel,
   HowToPlayModal,
   NpcDialogueModal,
-  WorldChatWidget,
   WorldMapModal,
 } from './components/WorldPanelsAndModals';
 import {
   Award,
   BookOpen,
+  Briefcase,
   CheckCircle2,
   Compass,
+  GraduationCap,
   HelpCircle,
   ListChecks,
   Map,
   Play,
+  Power,
   RotateCcw,
+  Settings,
   Sparkles,
   Trophy,
   User,
+  Users,
 } from 'lucide-react';
 
-const STORAGE_KEY = 'tic_world_5ano_state_v1';
+const STORAGE_KEY = 'tic_world_5ano_state_v2';
 
 const DEFAULT_PROGRESS: StudentProgress = {
-  xp: 80,
-  coins: 90,
+  xp: 320,
+  coins: 150,
   avatar: {
-    name: 'Explorador TIC',
+    name: 'Aluno(a)',
     skinColor: '#f1c27d',
     hairStyle: 'curto',
-    hairColor: '#0f172a',
-    shirtColor: '#0284c7',
-    pantsColor: '#1e293b',
-    shoeColor: '#334155',
-    accessory: 'ar_glasses',
+    hairColor: '#78350f',
+    shirtColor: '#cbd5e1',
+    pantsColor: '#1d4ed8',
+    shoeColor: '#f8fafc',
+    accessory: 'none',
   },
   currentZone: 'praca_central',
   currentPosition: [0, 0, 6],
@@ -354,97 +358,189 @@ export default function App() {
 
   return (
     <div className="min-h-screen h-dvh flex flex-col bg-slate-50 text-slate-900 overflow-hidden">
-      {/* STRICT 3-ZONE TOP BAR CONTRACT (Daylight Editorial) */}
-      <header className="h-14 sm:h-16 px-4 sm:px-6 bg-white/95 backdrop-blur-md border-b border-slate-200 flex items-center justify-between shrink-0 z-30">
-        {/* Zone 1: Single text element wordmark */}
-        <a
-          href="#mundo"
-          onClick={(e) => {
-            e.preventDefault();
-            setActiveTab('mundo');
-          }}
-          className="text-lg font-display font-bold tracking-tight text-slate-900 whitespace-nowrap"
+      {/* TIC MUNDO REFERENCE TOP NAVIGATION BAR */}
+      <header className="h-16 sm:h-[68px] px-3 sm:px-6 bg-gradient-to-r from-[#0c2138] via-[#122b49] to-[#0c2138] border-b border-sky-400/35 flex items-center justify-between shrink-0 z-30 text-white shadow-lg">
+        {/* Left Brand Block: 3D Globe + TIC MUNDO + Subtitle */}
+        <button
+          onClick={() => setActiveTab('mundo')}
+          className="flex items-center gap-2.5 sm:gap-3 text-left cursor-pointer group shrink-0"
         >
-          TIC World
-        </a>
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-b from-sky-400 to-blue-700 p-0.5 shadow-md border border-sky-200/60 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+            <svg viewBox="0 0 40 40" className="w-full h-full rounded-full">
+              <circle cx="20" cy="20" r="19" fill="#0284c7" />
+              <path
+                d="M12,8 C16,7 19,10 18,14 C17,18 11,19 10,24 C9,28 14,31 13,35 L6,30 L5,16 Z"
+                fill="#4ade80"
+              />
+              <path
+                d="M24,10 C29,11 34,15 33,21 C32,27 27,31 23,33 C21,29 22,24 20,20 C19,16 21,12 24,10 Z"
+                fill="#22c55e"
+              />
+              <circle
+                cx="20"
+                cy="20"
+                r="18.5"
+                fill="none"
+                stroke="#bae6fd"
+                strokeWidth="1"
+                opacity="0.65"
+              />
+            </svg>
+          </div>
+          <div>
+            <div className="text-lg sm:text-2xl font-display font-black tracking-wider text-white leading-none">
+              TIC MUNDO
+            </div>
+            <div className="text-[10px] sm:text-xs text-sky-200 font-medium tracking-tight mt-0.5 hidden sm:block">
+              Aprender. Explorar. Criar. Juntos.
+            </div>
+          </div>
+        </button>
 
-        {/* Zone 2: 5 clean text navigation links (Desktop & Tablet) */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        {/* Center 7 Icon + Label Navigation Items (Exact Match to Reference Image) */}
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
           <button
-            onClick={() => setActiveTab('mundo')}
-            className={`hover:text-slate-900 transition-colors whitespace-nowrap cursor-pointer pb-1 border-b-2 ${
-              activeTab === 'mundo'
-                ? 'text-sky-700 border-sky-600 font-bold'
-                : 'border-transparent'
+            onClick={() => {
+              if (activeTab !== 'mundo') {
+                setActiveTab('mundo');
+              } else {
+                setIsWorldMapOpen(true);
+              }
+            }}
+            className={`flex flex-col items-center gap-0.5 cursor-pointer transition-all hover:text-sky-300 ${
+              activeTab === 'mundo' ? 'text-sky-300 font-bold' : 'text-slate-100'
             }`}
           >
-            Mundo 3D
+            <Map className="w-5 h-5" />
+            <span className="text-xs font-semibold">Mapa</span>
           </button>
+
           <button
-            onClick={() => setActiveTab('missoes')}
-            className={`hover:text-slate-900 transition-colors whitespace-nowrap cursor-pointer pb-1 border-b-2 ${
-              activeTab === 'missoes'
-                ? 'text-sky-700 border-sky-600 font-bold'
-                : 'border-transparent'
+            onClick={() => setActiveTab(activeTab === 'missoes' ? 'mundo' : 'missoes')}
+            className={`relative flex flex-col items-center gap-0.5 cursor-pointer transition-all hover:text-sky-300 ${
+              activeTab === 'missoes' ? 'text-sky-300 font-bold' : 'text-slate-100'
             }`}
           >
-            Missões
+            <span className="absolute -top-0.5 right-1.5 w-2.5 h-2.5 rounded-full bg-amber-400 border border-[#122b49]" />
+            <ListChecks className="w-5 h-5" />
+            <span className="text-xs font-semibold">Missões</span>
           </button>
+
           <button
-            onClick={() => setActiveTab('curriculo')}
-            className={`hover:text-slate-900 transition-colors whitespace-nowrap cursor-pointer pb-1 border-b-2 ${
-              activeTab === 'curriculo'
-                ? 'text-sky-700 border-sky-600 font-bold'
-                : 'border-transparent'
+            onClick={() => setActiveTab(activeTab === 'avatar' ? 'mundo' : 'avatar')}
+            className={`flex flex-col items-center gap-0.5 cursor-pointer transition-all hover:text-sky-300 ${
+              activeTab === 'avatar' ? 'text-sky-300 font-bold' : 'text-slate-100'
             }`}
           >
-            Currículo TIC
+            <Briefcase className="w-5 h-5" />
+            <span className="text-xs font-semibold">Inventário</span>
           </button>
+
           <button
-            onClick={() => setActiveTab('avatar')}
-            className={`hover:text-slate-900 transition-colors whitespace-nowrap cursor-pointer pb-1 border-b-2 ${
-              activeTab === 'avatar'
-                ? 'text-sky-700 border-sky-600 font-bold'
-                : 'border-transparent'
-            }`}
+            onClick={() => setActiveTab(activeTab === 'avatar' ? 'mundo' : 'avatar')}
+            className="flex flex-col items-center gap-0.5 text-slate-100 hover:text-sky-300 cursor-pointer transition-all"
           >
-            Avatar e Loja
+            <User className="w-5 h-5" />
+            <span className="text-xs font-semibold">Avatares</span>
           </button>
+
           <button
-            onClick={() => setActiveTab('progresso')}
-            className={`hover:text-slate-900 transition-colors whitespace-nowrap cursor-pointer pb-1 border-b-2 ${
-              activeTab === 'progresso'
-                ? 'text-sky-700 border-sky-600 font-bold'
-                : 'border-transparent'
+            onClick={() => setActiveTab(activeTab === 'progresso' ? 'mundo' : 'progresso')}
+            className={`flex flex-col items-center gap-0.5 cursor-pointer transition-all hover:text-sky-300 ${
+              activeTab === 'progresso' ? 'text-sky-300 font-bold' : 'text-slate-100'
             }`}
           >
-            Progresso
+            <Users className="w-5 h-5" />
+            <span className="text-xs font-semibold">Comunidade</span>
+          </button>
+
+          <button
+            onClick={() => {
+              if (activeTab === 'curriculo') {
+                setActiveTab('mundo');
+              } else {
+                setActiveTab('curriculo');
+              }
+            }}
+            className={`flex flex-col items-center gap-0.5 cursor-pointer transition-all hover:text-sky-300 ${
+              activeTab === 'curriculo' ? 'text-sky-300 font-bold' : 'text-slate-100'
+            }`}
+          >
+            <GraduationCap className="w-5 h-5" />
+            <span className="text-xs font-semibold">Professor</span>
+          </button>
+
+          <button
+            onClick={() => setIsHowToPlayOpen(true)}
+            className="flex flex-col items-center gap-0.5 text-slate-100 hover:text-sky-300 cursor-pointer transition-all"
+          >
+            <HelpCircle className="w-5 h-5" />
+            <span className="text-xs font-semibold">Ajuda</span>
           </button>
         </nav>
 
-        {/* Zone 3: 2 primary actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Right Student Profile Pill & System Controls */}
+        <div className="flex items-center gap-2 sm:gap-2.5 bg-[#091829]/85 border border-slate-600/60 rounded-full pl-1.5 pr-2.5 py-1 shadow-inner">
+          {/* Student Avatar Portrait Circle */}
           <button
-            onClick={() => setIsWorldMapOpen(true)}
-            className="min-h-[40px] px-3 sm:px-3.5 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors whitespace-nowrap flex items-center gap-1.5 cursor-pointer"
+            onClick={() => setActiveTab('avatar')}
+            title="Personalizar Avatar"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-b from-sky-300 to-blue-600 border-2 border-sky-300 flex items-center justify-center overflow-hidden shrink-0 cursor-pointer"
           >
-            <Map className="w-4 h-4 text-sky-600" />
-            <span>Mapa</span>
+            <svg viewBox="0 0 40 40" className="w-full h-full">
+              <rect width="40" height="40" fill="#bae6fd" />
+              <circle cx="20" cy="15" r="8" fill={progress.avatar.skinColor} />
+              <path d="M11,14 C11,8 29,8 29,14 C27,11 13,11 11,14 Z" fill={progress.avatar.hairColor} />
+              <rect x="10" y="25" width="20" height="15" rx="6" fill={progress.avatar.shirtColor} />
+            </svg>
+          </button>
+
+          {/* Student Name, Level, and XP Bar */}
+          <div className="min-w-[125px] sm:min-w-[165px] pr-1">
+            <div className="flex items-center justify-between text-xs font-bold text-white leading-tight">
+              <span className="truncate max-w-[90px]">{progress.avatar.name || 'Aluno(a)'}</span>
+              <span className="text-[10px] text-amber-300 font-mono">{progress.coins} 🪙</span>
+            </div>
+            <div className="flex items-center justify-between text-[10px] text-slate-300 font-medium mt-0.5">
+              <span>Nível {currentLevelObj.level}</span>
+              <span className="font-mono tabular-nums text-sky-200">
+                {progress.xp} / {nextLevelObj ? nextLevelObj.minXp : 1500} XP
+              </span>
+            </div>
+            <div className="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden mt-1">
+              <div
+                style={{ width: `${xpProgressPercent}%` }}
+                className="h-full bg-gradient-to-r from-sky-400 to-cyan-300 rounded-full transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Settings & Home/World Buttons */}
+          <button
+            onClick={() => setActiveTab('avatar')}
+            title="Definições de Avatar e Inventário"
+            className="w-8 h-8 rounded-full hover:bg-slate-800 text-slate-200 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+          >
+            <Settings className="w-4 h-4" />
           </button>
           <button
-            onClick={() => setIsHowToPlayOpen(true)}
-            className="min-h-[40px] px-3 sm:px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-500 rounded-xl transition-colors whitespace-nowrap flex items-center gap-1.5 cursor-pointer shadow-xs"
+            onClick={() => {
+              setActiveTab('mundo');
+              setTeleportSignal({ position: [0, 0, 6], timestamp: Date.now() });
+              showToast('Regressaste ao ponto inicial da Avenida TIC MUNDO!');
+            }}
+            title="Voltar à Avenida Central 3D"
+            className="w-8 h-8 rounded-full hover:bg-slate-800 text-slate-200 hover:text-sky-300 flex items-center justify-center transition-colors cursor-pointer"
           >
-            <HelpCircle className="w-4 h-4" />
-            <span>Como Jogar?</span>
+            <Power className="w-4 h-4" />
           </button>
         </div>
       </header>
 
       {/* Toast Notification Banner */}
       {toastBanner && (
-        <div className="fixed top-16 right-4 z-50 max-w-sm bg-white border-2 border-emerald-500 text-slate-900 px-4 py-3 rounded-2xl shadow-xl text-xs font-semibold flex items-center gap-2.5">
-          <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 max-w-md bg-[#0f172a]/95 border-2 border-sky-400 text-white px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center gap-2.5">
+          <Sparkles className="w-4 h-4 text-amber-300 shrink-0" />
           <span>{toastBanner}</span>
         </div>
       )}
@@ -466,80 +562,18 @@ export default function App() {
                 setProgress((prev) => ({ ...prev, currentPosition: pos }))
               }
               teleportSignal={teleportSignal}
-            />
-
-            {/* Top-Right Compact Student Status & Active Mission HUD (Daylight Glass) */}
-            <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-20 pointer-events-auto w-64 sm:w-72 bg-white/90 backdrop-blur-md border border-slate-200/90 rounded-2xl p-3 sm:p-3.5 shadow-lg space-y-2 hidden lg:block">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-display font-bold text-slate-900 truncate">
-                  {progress.avatar.name}
-                </span>
-                <span className="font-mono tabular-nums text-amber-600 font-bold">
-                  {progress.coins} Moedas
-                </span>
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-[11px] text-slate-600">
-                  <span className="font-medium">
-                    Nível {currentLevelObj.level} · {currentLevelObj.title}
-                  </span>
-                  <span className="font-mono tabular-nums text-sky-700 font-bold">
-                    {progress.xp} XP
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                  <div
-                    style={{ width: `${xpProgressPercent}%` }}
-                    className="h-full bg-sky-600 transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Active Mission Quick Card */}
-              {(() => {
-                const activeMission =
-                  MISSIONS_DATA.find((m) => m.id === progress.activeMissionId) || MISSIONS_DATA[0];
-                const isDone = progress.missionStatuses[activeMission.id] === 'concluida';
-                return (
-                  <div className="pt-2 border-t border-slate-200 space-y-1.5">
-                    <div className="text-[11px] text-slate-500 flex items-center justify-between">
-                      <span>Missão Ativa ({activeMission.code})</span>
-                      <span className="text-emerald-700 font-bold">+{activeMission.xpReward} XP</span>
-                    </div>
-                    <div className="text-xs font-bold text-slate-900 truncate">
-                      {activeMission.title}
-                    </div>
-                    <div className="flex items-center gap-1.5 pt-1">
-                      <button
-                        onClick={() =>
-                          setActiveSimulator({
-                            activity: activeMission.activityType,
-                            missionId: activeMission.id,
-                          })
-                        }
-                        className="min-h-[38px] flex-1 py-1.5 px-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-[11px] flex items-center justify-center gap-1 cursor-pointer"
-                      >
-                        <Play className="w-3 h-3" />
-                        <span>{isDone ? 'Repetir' : 'Iniciar Missão'}</span>
-                      </button>
-                      <button
-                        onClick={() => setActiveTab('missoes')}
-                        className="min-h-[38px] py-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] cursor-pointer"
-                      >
-                        Ver Todas
-                      </button>
-                    </div>
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Classroom Safe Chat Widget */}
-            <WorldChatWidget
-              messages={chatMessages}
-              currentZone={progress.currentZone}
-              onSendMessage={handleSendMessage}
+              chatMessages={chatMessages}
+              onSendChatMessage={handleSendMessage}
+              onOpenWorldMap={() => setIsWorldMapOpen(true)}
+              onStartActivity={(activity, missionId) =>
+                setActiveSimulator({ activity, missionId })
+              }
+              onOpenAvatarInventory={() => setActiveTab('avatar')}
+              onOpenCurriculum={() => setActiveTab('curriculo')}
+              onTakeWorldPhoto={() => {
+                setProgress((prev) => ({ ...prev, xp: prev.xp + 15 }));
+                showToast('📸 Fotografia do TIC MUNDO guardada no teu álbum (+15 XP)!');
+              }}
             />
           </div>
         )}
